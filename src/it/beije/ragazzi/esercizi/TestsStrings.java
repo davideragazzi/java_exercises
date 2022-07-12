@@ -1,3 +1,4 @@
+package it.beije.ragazzi.esercizi;
 public class TestsStrings {
     private String str;
 
