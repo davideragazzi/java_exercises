@@ -7,17 +7,15 @@ import java.sql.Statement;
 
 public class BibliotecaJDBC {
 
-	public static void main(String[] args) throws Exception {
-
-		Class.forName("com.mysql.cj.jdbc.Driver");
-
-		Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET",
-				"root", "Marcellona1994!");
-
-		System.out.println("connection open ? " + !connection.isClosed());
-
-		Statement statement = connection.createStatement();
-
+	public static void main(String[] args) {
+		Connection connection = null;
+		try {
+			System.out.println("Sono nel try");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET&useSSL=false",
+					"root", "Marcellona1994!");
+			System.out.println("connection open ? " + !connection.isClosed());
+			Statement statement = connection.createStatement();
 		// INSERT
 		// statement.executeUpdate("INSERT INTO utenti (nome, cognome, telefono, email)
 		// VALUES ('Piero', 'Verde', '5355223532', 'l.verde@beije.it')");
@@ -33,11 +31,14 @@ public class BibliotecaJDBC {
 		// statement.executeUpdate("DELETE FROM utenti where id = 4");
 
 		// SELECT
-		statement.executeUpdate("insert into prestiti values (null, 1, 1987, 'Bari', '3/2/2022')");
-		ResultSet rs = statement.executeQuery("SELECT * FROM prestiti");
+//		statement.executeUpdate("insert into prestiti values (null, 1, 1987, 'Bari', '3/2/2022')");
+		
+//		ResultSet rs = statement.executeQuery("SELECT * FROM prestiti");
+			ResultSet rs = statement.executeQuery("SELECT * FROM prestiti");
+
 		// ResultSet rs = statement.executeQuery("SELECT nome, cognome, email FROM
 		// utenti");
-		while (rs.next()) {
+			while (rs.next()) {
 			// System.out.println("id : " + rs.getInt(1));
 			// System.out.println("nome : " + rs.getString(2));
 			// System.out.println("cognome : " + rs.getString(3));
@@ -50,12 +51,12 @@ public class BibliotecaJDBC {
 //			System.out.println("email : " + rs.getString("email"));
 //			System.out.println("telefono : " + rs.getString("telefono"));
 //			System.out.println("paese : " + rs.getString("paese"));
-			System.out.println("id_prestito : " + rs.getInt("id"));
-			System.out.println("id_utente : " + rs.getInt("id_utente"));
-			System.out.println("id_libro : " + rs.getInt("id_libro"));
-			System.out.println("luogo_prestito : " + rs.getString("luogo_prestito"));
-			System.out.println("data_restituzione : " + rs.getString("data_restituzione"));
-		}
+				System.out.println("id_prestito : " + rs.getInt("id"));
+				System.out.println("id_utente : " + rs.getInt("id_utente"));
+				System.out.println("id_libro : " + rs.getInt("id_libro"));
+				System.out.println("luogo_prestito : " + rs.getString("luogo_prestito"));
+				System.out.println("data_restituzione : " + rs.getString("data_restituzione"));
+			}
 //		ResultSet rsPrestiti = statement.executeQuery("select * from prestiti");
 //		while (rsPrestiti.next()) {
 //			System.out.println("id_prestito : " + rs.getInt("id"));
@@ -67,6 +68,19 @@ public class BibliotecaJDBC {
 		// rs.close();
 		// statement.close();
 		// connection.close();
+//		throw new Exception("Prova di lancio eccezione");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("Sono nel finally e vengo richiamato indipendentemente dalle eccezioni");
+//			 rs.close();
+//			 statement.close();
+			try {
+				connection.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 
 }
