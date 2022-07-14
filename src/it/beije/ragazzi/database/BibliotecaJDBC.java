@@ -5,11 +5,26 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BibliotecaJDBC {
 
 	public static void main(String[] args) {
+		
+		List<Utente> utenti = loadUsers();
+		System.out.println("numero utenti : " + utenti.size());
+		for (Utente u : utenti) {
+			System.out.println(u);
+		}
+		
+	}
+	
+		
+	public static List<Utente> loadUsers() {
 		Connection connection = null;
+		List<Utente> utenti = new ArrayList<Utente>();
+				
 		try {
 			System.out.println("Sono nel try");
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -29,12 +44,12 @@ public class BibliotecaJDBC {
 //			String query = "INSERT INTO utenti VALUES (null, '" + nome + "', '" + cognome + "', '" + telefono + "', '" + email + "')";
 //			System.out.println(query);
 			//statement.executeUpdate(query);
-			PreparedStatement insertPrepStatement = connection.prepareStatement("INSERT INTO utenti VALUES (null, ?, ?, ?, ?)");
-			insertPrepStatement.setString(1, nome);
-			insertPrepStatement.setString(2, cognome);
-			insertPrepStatement.setString(3, telefono);
-			insertPrepStatement.setString(4, email);
-			insertPrepStatement.execute();
+//			PreparedStatement insertPrepStatement = connection.prepareStatement("INSERT INTO utenti VALUES (null, ?, ?, ?, ?)");
+//			insertPrepStatement.setString(1, nome);
+//			insertPrepStatement.setString(2, cognome);
+//			insertPrepStatement.setString(3, telefono);
+//			insertPrepStatement.setString(4, email);
+//			insertPrepStatement.execute();
 
 		// UPDATE
 		// statement.executeUpdate("UPDATE utenti SET telefono = '1234567' where id =
@@ -51,6 +66,7 @@ public class BibliotecaJDBC {
 //			ResultSet rs = statement.executeQuery("SELECT * FROM prestiti");
 
 		ResultSet rs = statement.executeQuery("SELECT * FROM utenti");
+		Utente utente = null;
 		while (rs.next()) {
 			// System.out.println("id : " + rs.getInt(1));
 			// System.out.println("nome : " + rs.getString(2));
@@ -58,12 +74,21 @@ public class BibliotecaJDBC {
 			// System.out.println("email : " + rs.getString(4));
 			// System.out.println("telefono : " + rs.getString(5));
 
-			System.out.println("id : " + rs.getInt("id"));
-			System.out.println("nome : " + rs.getString("nome"));
-			System.out.println("cognome : " + rs.getString("cognome"));
-			System.out.println("email : " + rs.getString("email"));
-			System.out.println("telefono : " + rs.getString("telefono"));
-			System.out.println("paese : " + rs.getString("paese"));
+//			System.out.println("id : " + rs.getInt("id"));
+//			System.out.println("nome : " + rs.getString("nome"));
+//			System.out.println("cognome : " + rs.getString("cognome"));
+//			System.out.println("email : " + rs.getString("email"));
+//			System.out.println("telefono : " + rs.getString("telefono"));
+			
+			utente = new Utente();
+			utente.setId(rs.getInt("id"));
+			utente.setNome(rs.getString("nome"));
+			utente.setCognome(rs.getString("cognome"));
+			utente.setEmail(rs.getString("email"));
+			utente.setTelefono(rs.getString("telefono"));
+			utenti.add(utente);
+			
+//			System.out.println("paese : " + rs.getString("paese"));
 		
 //				System.out.println("id_prestito : " + rs.getInt("id"));
 //				System.out.println("id_utente : " + rs.getInt("id_utente"));
@@ -95,6 +120,8 @@ public class BibliotecaJDBC {
 				e2.printStackTrace();
 			}
 		}
+		
+		return utenti;
 	}
 
 }
