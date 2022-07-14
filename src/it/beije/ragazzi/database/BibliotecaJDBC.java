@@ -13,8 +13,8 @@ public class BibliotecaJDBC {
 		try {
 			System.out.println("Sono nel try");
 			Class.forName("com.mysql.cj.jdbc.Driver");
-//			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET&useSSL=false", "root", "Marcellona1994!");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET&useSSL=false", "root", "beije");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET&useSSL=false", "root", "Marcellona1994!");
+//			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/biblioteca?serverTimezone=CET&useSSL=false", "root", "beije");
 			System.out.println("connection open ? " + !connection.isClosed());
 			Statement statement = connection.createStatement();
 		// INSERT
@@ -22,18 +22,30 @@ public class BibliotecaJDBC {
 		// VALUES ('Piero', 'Verde', '5355223532', 'l.verde@beije.it')");
 		// statement.executeUpdate("INSERT INTO utenti VALUES (null, 'Piero', 'Verde2',
 		// '5355223532', 'l.verde2@beije.it')");
-			String nome = "Piero";
-			String cognome = "Rossi";
-			String telefono = "04231442134";
-			String email = "pr3@beije.it";
+			
+			String nome = "Gianni";
+			String cognome = "Celeste";
+			String telefono = "036746134";
+			String email = "gc@beije.it";
+			String paese = "Albania";
+			
 //			String query = "INSERT INTO utenti VALUES (null, '" + nome + "', '" + cognome + "', '" + telefono + "', '" + email + "')";
 //			System.out.println(query);
 			//statement.executeUpdate(query);
-			PreparedStatement insertPrepStatement = connection.prepareStatement("INSERT INTO utenti VALUES (null, ?, ?, ?, ?)");
+			
+			PreparedStatement insertPrepStatement = connection.prepareStatement("INSERT INTO utenti VALUES (null, ?, ?, ?, ?, ?)");
+//			PreparedStatement insertPrepStatement = connection.prepareStatement("UPDATE utenti SET paese = ? where id = 10");
+//			PreparedStatement insertPrepStatement = connection.prepareStatement("DELETE FROM utenti WHERE id = ?");
+
 			insertPrepStatement.setString(1, nome);
 			insertPrepStatement.setString(2, cognome);
 			insertPrepStatement.setString(3, telefono);
 			insertPrepStatement.setString(4, email);
+			insertPrepStatement.setString(5, paese);
+			
+//			insertPrepStatement.setString(1, paese);
+			
+//			insertPrepStatement.setInt(1, 9);
 			insertPrepStatement.execute();
 
 		// UPDATE
