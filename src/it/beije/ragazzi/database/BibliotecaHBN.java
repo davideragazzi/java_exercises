@@ -43,22 +43,25 @@ public class BibliotecaHBN {
 			System.out.println("session is open ? " + session.isOpen());
 			
 			
-			//Transaction transaction = session.beginTransaction();
+			Transaction transaction = session.beginTransaction();
 //			Transaction transaction = session.getTransaction();
 //			transaction.begin();
 			
-//			//INSERT
-//			Contatto newContatto = new Contatto();
-//			newContatto.setId(3);
-//			newContatto.setCognome("Giuseppe");
-//			newContatto.setNome("Verde");
-//			newContatto.setEmail("g.verde@beije.it");
-//			System.out.println("contatto PRE : " + newContatto);
+			//INSERT
+//			Utente nuovo = new Utente();
+////			nuovo.setId(30);
+//			nuovo.setNome("Riccardo");
+//			nuovo.setCognome("Marrone");
+//			nuovo.setTelefono("234324");
+//			nuovo.setEmail("rm@beije.it23");
 //			
-//			session.save(newContatto);
+//			System.out.println("Utente PRE : " + nuovo);
 //			
-//			System.out.println("contatto POST : " + newContatto);
+//			session.save(nuovo);
+//			
+//			System.out.println("Utente POST : " + nuovo);
 
+//			transaction.rollback();
 			
 			//SELECT HQL
 			Query<Utente> query = session.createQuery("SELECT u FROM Utente as u");//SELECT * FROM utenti
@@ -67,23 +70,22 @@ public class BibliotecaHBN {
 			Utente utente = null;
 			for (Utente u : utenti) {
 				System.out.println(u);
-				//if (u.getId() == 12) contatto = u;
+				if (u.getId() == 2) utente = u;
 			}
 
 			
-//			//UPDATE
-//			System.out.println("modifico : " + contatto);
-//			//contatto.setId(20);
-//			contatto.setNote("queste sono le note");
-//			contatto.setNome("Piero");
-//			session.save(contatto);
-//			System.out.println("contatto POST update : " + contatto);
+			//UPDATE
+//			System.out.println("modifico : " + utente);
+//			//utente.setId(20);
+//			utente.setTelefono("11111111");
+//			utente.setNome("Davide");
+//			session.save(utente);
+//			System.out.println("utente POST update : " + utente);
 			
-//			//DELETE
-//			session.remove(contatto);
+			//DELETE
+//			session.remove(utente);
 			
-			//transaction.commit();
-			//transaction.rollback();
+			transaction.commit();
 
 		} catch (HibernateException hbmEx) {
 			hbmEx.printStackTrace();
