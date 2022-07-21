@@ -87,6 +87,41 @@ public class CSVmanager {
 		return utenti;
 	}
 	
+	public static List<Utente> cleanReaderCSV(String path) {
+		
+		BufferedReader bufferedReader = null;
+		List<Utente> utenti = new ArrayList<Utente>(); 
+		try {
+			bufferedReader = new BufferedReader(new FileReader(path));//Design Pattern Decorator
+			Utente u = null;
+			String[] cols = null;
+			while (bufferedReader.ready()) {
+				String r = bufferedReader.readLine();
+				System.out.println(r);
+				
+				cols = r.split(";");
+//				for (String c : cols) System.out.println("-> " + c);
+				u = new Utente();
+				u.setNome(cols[0]);
+				u.setTelefono(cols[1]);
+				u.setEmail(cols[2]);
+				utenti.add(u);
+			}
+			
+		} catch (FileNotFoundException fnfEx) {
+			fnfEx.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				bufferedReader.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return utenti;
+	}
 	
 	public static void writeCSV(List<Utente> rubrica, String path) {
 		
@@ -130,7 +165,7 @@ public class CSVmanager {
 	
 	public static void main(String[] args) {
 
-		List<Utente> rubrica = readCSV("rubrica.csv");
+		List<Utente> rubrica = cleanReaderCSV("rubrica.csv");
 		
 		writeCSV(rubrica, "rubrica.txt");
 	}
