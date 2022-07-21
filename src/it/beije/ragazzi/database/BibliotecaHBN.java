@@ -21,6 +21,14 @@ public class BibliotecaHBN {
 		}
 		
 	}
+	
+	public static Utente currentUser(List<Utente> utenti, int id) {
+		Utente utenteCorrente = new Utente();
+		for (Utente utente : utenti) {
+			if(utente.getId() == id) utenteCorrente = utente;
+		}
+		return utenteCorrente;
+	}
 
 	public static Session openHBSession() {
 		Configuration configuration = new Configuration().configure()
@@ -35,56 +43,45 @@ public class BibliotecaHBN {
 		
 	public static List<Utente> loadUsers() {
 		List<Utente> utenti = null;
-		
 		Session session = null;
 		try {
-			
+			// Apro una nuova sessione
 			session = openHBSession();//HBsessionFactory.openSession();
 			System.out.println("session is open ? " + session.isOpen());
 			
-			
+			// Inizio la transaction
 			Transaction transaction = session.beginTransaction();
+			// è equivalente a fare:
 //			Transaction transaction = session.getTransaction();
 //			transaction.begin();
-			
-			//INSERT
-//			Utente nuovo = new Utente();
-////			nuovo.setId(30);
-//			nuovo.setNome("Riccardo");
-//			nuovo.setCognome("Marrone");
-//			nuovo.setTelefono("234324");
-//			nuovo.setEmail("rm@beije.it23");
-//			
-//			System.out.println("Utente PRE : " + nuovo);
-//			
-//			session.save(nuovo);
-//			
-//			System.out.println("Utente POST : " + nuovo);
-
-//			transaction.rollback();
 			
 			//SELECT HQL
 			Query<Utente> query = session.createQuery("SELECT u FROM Utente as u");//SELECT * FROM utenti
 			utenti = query.getResultList();
 			
-			Utente utente = null;
-			for (Utente u : utenti) {
-				System.out.println(u);
-				if (u.getId() == 2) utente = u;
-			}
-
+			// Creo un utente
+//			Utente nuovoUtente = new Utente();
+//			nuovoUtente.setNome("a");
+//			nuovoUtente.setCognome("b");
+//			nuovoUtente.setTelefono("000009191");
+//			nuovoUtente.setEmail("a@b.c");
+//			session.save(nuovoUtente);
 			
-			//UPDATE
-//			System.out.println("modifico : " + utente);
-//			//utente.setId(20);
-//			utente.setTelefono("11111111");
-//			utente.setNome("Davide");
+			// Prendo un utente
+			Utente utente = currentUser(utenti, 14);
+			System.out.println("Utente corrente: " + utente);
+			
+			// Aggiorno un utente
+//			utente.setNome("Mario");
+//			utente.setCognome("Gini");
+//			utente.setTelefono("123987564");
+//			utente.setEmail("g.c@abcd.e");
 //			session.save(utente);
-//			System.out.println("utente POST update : " + utente);
 			
-			//DELETE
-//			session.remove(utente);
+			// Rimuovo un utente
+//			session.delete(utente);
 			
+			// Committo (chiedere di transaction.rollback();) annullare operazione
 			transaction.commit();
 
 		} catch (HibernateException hbmEx) {
